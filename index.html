@@ -140,7 +140,7 @@
         <canvas id="webcam-preview"></canvas>
     </div>
     
-    <audio id="bg-music" loop crossorigin="anonymous"></audio>
+    <audio id="bg-music" loop crossorigin="anonymous" src="告白气球.mp3"></audio>
 
     <script type="module">
         import * as THREE from 'three';
@@ -180,8 +180,7 @@
             rotation: { x: 0, y: 0 }, spinVel: { x: 0, y: 0 }, time: 0,
             wasPointing: false, palmCenter: { x: 0.5, y: 0.5 }, hasPalmCenter: false,
             starMesh: null, starHaloMesh: null,
-            // 修改1：清空书信默认内容
-            letterContent: "", 
+            letterContent: "亲爱的盈盈：\n\n虽然我们相识的时间不长，\n但有些感觉，从第一眼就已经注定。\n\n我不知道是什么让我如此确定，\n只知道每次看到你，心里就会变得很安静，\n又很雀跃。\n\n你笑起来的样子，\n让我觉得这个世界温柔了很多。\n\n我想认真地走进你的生活，\n想成为你难过时第一个想找的人，\n想在每一个平凡的日子里，\n给你一点点小小的惊喜和温暖。\n\n未来的路还很长，\n我不敢承诺太多，\n但我想牵着你的手，\n一步一步，慢慢走下去。\n\n谢谢你出现在我的生命里。\n\n小王", 
             letterTyper: null, letterStartTimer: null, letterLastTriggerTime: 0,
             musicData: null,
         };
@@ -222,6 +221,16 @@
             const loader = document.getElementById('loader');
             loader.style.opacity = 0;
             setTimeout(() => loader.remove(), 1200);
+
+            // 用户点击页面后自动播放音乐（浏览器限制需要用户交互才能播放）
+            const audioEl = document.getElementById('bg-music');
+            const tryPlayMusic = () => {
+                audioEl.play().catch(() => {});
+                document.removeEventListener('click', tryPlayMusic);
+                document.removeEventListener('touchstart', tryPlayMusic);
+            };
+            document.addEventListener('click', tryPlayMusic);
+            document.addEventListener('touchstart', tryPlayMusic);
 
             animate(); 
         }
